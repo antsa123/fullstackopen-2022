@@ -1,0 +1,16 @@
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+server-->browser: Status 304 and the HTML code for the page
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+server-->browser: Status 304 and spa.js
+
+note over browser:
+Browser starts to execute the javascript code and makes a request to the server.
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: Stats 200 and response data.json: [{"content":"yeah","date":"2022-04-02T23:09:00.679Z"}...]
+
+note over browser:
+Browser executes the 'onreadystatechange' event handler that iterates over
+the data returned by the server and adds the notes as elements to be rendered by the browser.
+end note

@@ -1,0 +1,12 @@
+user->browser: User writes a note to the text box and clicks on Save button.
+
+note over browser: 
+The browser immediately adds the note into the list of notes and renders it onto the screen.
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa with json payload
+server-->browser: Status 201 and payload {"message":"note created"}
+
+note over browser:
+No other requests are made. Browser logs the response into console.
+end note

@@ -1,0 +1,21 @@
+user->browser: User writes a note to the text box and clicks on Save button.
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note with payload note=a note
+server-->browser: Status 302 Redirection request to exampleapp/notes
+browser->server: HTTP GET https://studies.cs.helsinki.fi//exampleapp/notes
+server-->browser: Status 304 and the HTML code for the page
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: Status 304 and main.css
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server-->browser: Status 304 and main.js
+
+note over browser:
+Browser starts to execute the javascript code and makes a request to the server.
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: Stats 200 and response data: [{"content":"xxx","date":"2022-04-02T22:36:43.980Z"}...]
+
+note over browser:
+Browser executes the 'onreadystatechange' event handler that iterates over
+the data returned by the server and adds the notes as elements to be rendered by the browser.
+end note
