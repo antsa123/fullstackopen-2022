@@ -33,23 +33,8 @@ const Statistics = ({good, bad, neutral}) => {
 }
 
 const StatisticsLine = ({statistic, value, unit}) => {
-  if (unit === "" || unit === undefined){
     return (
       <>
-      <tr>
-        <td>
-          {statistic}
-        </td>
-        <td>
-          {value}
-        </td>
-      </tr>
-    </>
-    )
-  }
-
-  return (
-    <>
       <tr>
         <td>
           {statistic}
@@ -59,7 +44,7 @@ const StatisticsLine = ({statistic, value, unit}) => {
         </td>
       </tr>
     </>
-  )
+    )
 }
 
 const App = () => {
