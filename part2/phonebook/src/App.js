@@ -40,10 +40,16 @@ const App = () => {
       alert(`${newName} is already added to phonebook`)
       return
     }
-    setPersons(persons.concat({
-      name: newName,
-      number: newNumber
-    })) 
+
+    const name = newName
+    const number = newNumber
+    const newPerson = {name, number}
+
+    axios.post('http://localhost:3001/persons', newPerson)
+
+    setPersons(persons.concat(
+      newPerson
+    )) 
   }
 
   const peopleToShow = persons.filter(person => person.name.toLowerCase().includes(newFilter))
