@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import PeopleList from './components/PeopleList'
-import axios from 'axios'
+import peopleService from './services/peopleService'
+
 
 const App = () => {
   const [persons, setPersons] = useState([])
 
   useEffect(() =>
-  axios.get('http://localhost:3001/persons').then(response => {
+    peopleService.getAll().then(response => {
     setPersons(response.data)
   })
   , [])
@@ -45,11 +46,12 @@ const App = () => {
     const number = newNumber
     const newPerson = {name, number}
 
-    axios.post('http://localhost:3001/persons', newPerson)
-
-    setPersons(persons.concat(
-      newPerson
-    )) 
+    peopleService.addPerson(newPerson)
+    .then(response => {
+      setPersons(persons.concat(response.data))
+      setNewName('')
+      setNewNumber('')
+    })
   }
 
   const peopleToShow = persons.filter(person => person.name.toLowerCase().includes(newFilter))
