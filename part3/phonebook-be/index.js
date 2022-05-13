@@ -4,6 +4,10 @@ const app = express()
 const morgan = require('morgan')
 morgan.token('body', (request, response) => JSON.stringify(request.body))
 
+const cors = require('cors')
+
+app.use(cors())
+
 app.use(express.json())
 
 // POST /api/persons 200 61 - 4.896 ms {"name":"Liisa Marttinen", "number":"040-243563"}
