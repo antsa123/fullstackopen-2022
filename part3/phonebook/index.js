@@ -40,6 +40,39 @@ app.get('/api/persons/:id', (request, response) => {
   }
 })
 
+app.post('/api/persons', (request, response) => {
+  const body = request.body
+
+  if (!body.name) {
+    return response.status(400).json({ 
+      error: 'name missing' 
+    })
+  }
+
+  if (!body.number) {
+    return response.status(400).json({ 
+      error: 'number missing' 
+    })
+  }
+
+  if (persons.find(person => person.name == body.name)) {
+    return response.status(400).json({
+      error: 'name must be unique'
+    })
+  }
+
+
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: generateId(),
+  }
+
+  persons = persons.concat(person)
+
+  response.json(person)
+})
+
 app.delete('/api/persons/:id', (request, response) => {
   const id = Number(request.params.id)
 
@@ -55,6 +88,11 @@ app.get('/info', (req,res) => {
   <p>${new Date().toString()}</p>
   </div>`)
 })
+
+const generateId = () => {
+  return Math.floor(Math.random() * 500)
+}
+
 
 const PORT = 3001
 app.listen(PORT, () => {
