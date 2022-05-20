@@ -11,10 +11,31 @@ mongoose.connect(url)
     console.log('error connecting to MongoDB:', error.message)
   })
 
+const numberValidator = (value) => {
+    const splitValue = value.split('-')
+    if (splitValue.length != 2) {
+        return false
+    }
+    if (splitValue[0].length != 2 && splitValue[0].length != 3) {
+        return false
+    }
+}
+
 const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+      type: String,
+      minlength: 3,
+      requred: true
+  },
+  number: {
+      type: String,
+      minlength: 8,
+      required: true,
+      validate: [numberValidator, "Number must be of form XY-1234567 or XYZ-123456"]
+  }
 })
+
+
 
 personSchema.set('toJSON', {
   transform: (document, returnedObject) => {

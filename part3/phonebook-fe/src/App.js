@@ -69,6 +69,9 @@ const App = () => {
       setNewName('')
       setNewNumber('')
       showNotification(`Added ${newPerson.name}`)
+    }).catch(error => {
+      console.log(error.response)
+      showErrorMessage(`${error.response.data.error}`)
     })
   }
 
