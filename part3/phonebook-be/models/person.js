@@ -4,7 +4,7 @@ const url = process.env.MONGODB_URI
 
 console.log('connecting to', url)
 mongoose.connect(url)
-  .then(result => {
+  .then(() => {
     console.log('connected to MongoDB')
   })
   .catch((error) => {
@@ -12,26 +12,26 @@ mongoose.connect(url)
   })
 
 const numberValidator = (value) => {
-    const splitValue = value.split('-')
-    if (splitValue.length != 2) {
-        return false
-    }
-    if (splitValue[0].length != 2 && splitValue[0].length != 3) {
-        return false
-    }
+  const splitValue = value.split('-')
+  if (splitValue.length != 2) {
+    return false
+  }
+  if (splitValue[0].length != 2 && splitValue[0].length != 3) {
+    return false
+  }
 }
 
 const personSchema = new mongoose.Schema({
   name: {
-      type: String,
-      minlength: 3,
-      requred: true
+    type: String,
+    minlength: 3,
+    requred: true
   },
   number: {
-      type: String,
-      minlength: 8,
-      required: true,
-      validate: [numberValidator, "Number must be of form XY-1234567 or XYZ-123456"]
+    type: String,
+    minlength: 8,
+    required: true,
+    validate: [numberValidator, 'Number must be of form XY-1234567 or XYZ-123456']
   }
 })
 

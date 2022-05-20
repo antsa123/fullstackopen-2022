@@ -7,7 +7,7 @@ const app = express()
 
 // Middleware
 const morgan = require('morgan')
-morgan.token('body', (request, response) => JSON.stringify(request.body))
+morgan.token('body', (request) => JSON.stringify(request.body))
 const cors = require('cors')
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
