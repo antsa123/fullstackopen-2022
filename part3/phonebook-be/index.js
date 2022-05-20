@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.static('build'))
+
 const morgan = require('morgan')
 morgan.token('body', (request, response) => JSON.stringify(request.body))
 
@@ -104,7 +106,7 @@ const generateId = () => {
 }
 
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
