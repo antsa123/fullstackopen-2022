@@ -2,7 +2,7 @@ GET http://localhost:3001/api/persons
 
 ###
 
-GET http://localhost:3001/api/persons/1
+GET http://localhost:3001/api/persons/62877efcf48da7627e081bd6
 
 ###
 
@@ -26,6 +26,17 @@ content-type: application/json
 {
     "name": "vesa",
     "number": "987654321"
+}
+
+###
+
+PUT http://localhost/3001/api/persons/1 HTTP/1.1
+content-type: application/json
+
+{
+    "name":"Jape",
+    "number":"23421341",
+    "id":"62877efcf48da7627e081bd6"
 }
 
 ###
