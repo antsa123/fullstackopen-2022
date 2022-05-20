@@ -1,12 +1,17 @@
+require('dotenv').config()
+const Person = require('./models/person')
+
+// Server
 const express = require('express')
 const app = express()
 
+// Middleware
 app.use(express.static('build'))
-
 const morgan = require('morgan')
 morgan.token('body', (request, response) => JSON.stringify(request.body))
-
 const cors = require('cors')
+
+
 
 app.use(cors())
 
@@ -38,7 +43,7 @@ let persons = [
     }]
 
 app.get('/api/persons', (request, response) => {
-  response.json(persons)
+  Person.find({}).then(persons => response.json(persons))
 })
 
 app.get('/api/persons/:id', (request, response) => {
@@ -74,15 +79,15 @@ app.post('/api/persons', (request, response) => {
   }
 
 
-  const person = {
+  const person = new Person({
     name: body.name,
     number: body.number,
-    id: generateId(),
-  }
+  })
 
-  persons = persons.concat(person)
-
-  response.json(person)
+  person.save().then(result => {
+    console.log(`Added ${result.name} with number ${result.number} to phonebook`)
+    response.json(person)
+  })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
