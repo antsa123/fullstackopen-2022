@@ -4,7 +4,7 @@
   "description": "FSO22 part4",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --verbose",
     "start": "node index.js"
   },
   "author": "Antti Parkkonen",
@@ -16,6 +16,11 @@
     "mongoose": "^6.3.5"
   },
   "devDependencies": {
+    "jest": "^28.1.0",
     "nodemon": "^2.0.16"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
+ 
 }
