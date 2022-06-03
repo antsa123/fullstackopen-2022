@@ -47,8 +47,6 @@ const mostLikedAuthorAndLikeCount = (blogs) => {
       })
   })
 
-  console.log(writers)
-
   return writers.reduce((previousWithMostLikes, candidateForMostLikes) => {
     return (previousWithMostLikes.likes > candidateForMostLikes.likes) ? previousWithMostLikes : candidateForMostLikes
   })
