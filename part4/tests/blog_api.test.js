@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
+const { all } = require('../app')
 const app = require('../app')
 const Blog = require('../models/blog')
 const dbInitializer = require('./test_database_initializer')
@@ -93,6 +94,49 @@ test('new blog without url will result in a bad request and nothing is added', a
   .post('/api/blogs')
   .send(newBlog)
   .expect(400)
+})
+
+test('Delete an individual blog post', async () =>  {
+  const allBlogsInStart = await dbInitializer.blogsInDb()
+  const blogToDelete = allBlogsInStart[0]
+  
+  await api
+  .delete(`/api/blogs/${blogToDelete.id}`)
+  .expect(204)
+
+  const allBlogsAfterDelete = await dbInitializer.blogsInDb()
+
+  expect(allBlogsAfterDelete.length).toBe(allBlogsInStart.length - 1)
+  expect(allBlogsAfterDelete).not.toContain(blogToDelete);
+})
+
+test('Try delete an individual blog post with non existing id', async () => {
+  const allBlogsInStart = await dbInitializer.blogsInDb()
+  const idThatDoesNotExist = '62a2f4482641fba000060f50'
+
+  await api
+  .delete(`/api/blogs/${idThatDoesNotExist}`)
+  .expect(204)
+
+  const allBlogsAfterDelete = await dbInitializer.blogsInDb()
+
+  expect(allBlogsAfterDelete.length).toBe(allBlogsInStart.length)
+})
+
+test('Liking a blog increases the like count', async () => {
+  const allBlogsInStart = await dbInitializer.blogsInDb()
+  const blogToUpdate = allBlogsInStart[0]
+
+  const likedBlog = {... blogToUpdate, likes: blogToUpdate.likes + 1}
+
+  const response = await api
+  .put(`/api/blogs/${blogToUpdate.id}`)
+  .send(likedBlog)
+
+  const returnedBlog = response.body
+  expect(returnedBlog.likes).toBe(likedBlog.likes)
+  expect(returnedBlog.title).toBe(likedBlog.title)
+
 })
 
 afterAll(() => {
