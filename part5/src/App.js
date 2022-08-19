@@ -26,9 +26,24 @@ const App = () => {
     }
   }, [])
 
+  const sortByLikes = (blogsToSort) => {
+    blogsToSort.sort((a,b) => {
+      if (a.likes && b.likes) return b.likes - a.likes
+      else if (a.likes && !b.likes) return -1
+      else if (!a.likes && b.likes) return 1
+      else return 0
+    })
+  }
+
+  const updateBlogs = (newBlogs) => {
+    sortByLikes(newBlogs)
+    setBlogs(newBlogs)
+  }
+
   const fetchBlogs = async () => {
     const response = await blogService.getAll()
-    setBlogs( response )
+    updateBlogs(response)
+    
   }
 
   useEffect(() => {
@@ -72,7 +87,7 @@ const App = () => {
     try {
       const newBlog = await blogService.addNewBlog(blogObject)
       createBlogRef.current.toggleVisibility()
-      setBlogs(blogs.concat(newBlog))
+      updateBlogs(blogs.concat(newBlog))
       showNotification(`New blog ${newBlog.title} added`)
     }
     catch (exception) {
@@ -85,7 +100,7 @@ const App = () => {
     try {
       const likedBlog = await blogService.likeBlog(id, blogObject)
 
-      setBlogs(blogs.map(blog => {
+      updateBlogs(blogs.map(blog => {
         if (blog.id == likedBlog.id)
         {
           return likedBlog
