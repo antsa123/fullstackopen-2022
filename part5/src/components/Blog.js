@@ -1,5 +1,5 @@
 import { useState } from 'react'
-const Blog = ({blog, likeBlog}) => {
+const Blog = ({blog, likeBlog, deleteBlog, username}) => {
 
   const blogStyle = {
     paddingTop: 10,
@@ -41,6 +41,15 @@ const Blog = ({blog, likeBlog}) => {
     likeBlog(blog.id, blogObject)
   }
 
+  const confirmDeletion = (event) => {
+    event.preventDefault()
+    if (window.confirm(`Are you sure you want to delete blog ${blog.title} by ${blog.author}`))
+    {
+      console.log(blog.id)
+      deleteBlog(blog.id)
+    }
+  }
+
   return (
   <div>
     <div style={blogStyle}>
@@ -58,6 +67,11 @@ const Blog = ({blog, likeBlog}) => {
         :
         <div>
         </div>
+      }
+      {show && username === blog.user.username ? 
+        <button onClick={confirmDeletion}>Remove blog</button>
+        :
+        <div></div>
       }
       </div>
     </div>

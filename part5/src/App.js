@@ -116,6 +116,25 @@ const App = () => {
     }
   }
 
+  const deleteBlog = async (id) => {
+    try {
+      console.log(id)
+      const response = await blogService.deleteBlog(id);
+      if (response === 204)
+      {
+        showNotification('Blog deleted')
+        updateBlogs(blogs.filter((blog) => {
+          return blog.id !== id
+        }))
+      }
+    }
+    catch (exception)
+    {
+      showErrorMessage('Something went wrong when deleting the blog')
+      console.log(exception)
+    }
+  }
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <h1>Login</h1>
@@ -144,7 +163,7 @@ const App = () => {
   const blogsDiv = () => (
     <div>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />
+        <Blog key={blog.id} blog={blog} likeBlog={likeBlog} deleteBlog={deleteBlog} username={user.username} />
       )}
     </div>
   )
