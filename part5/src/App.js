@@ -70,20 +70,33 @@ const App = () => {
 
   const createBlog = async (blogObject) => {
     try {
-      console.log(blogObject)
-      const newBlog = await blogService.addNewBlog({
-        'title': blogObject.title,
-        'author': blogObject.author,
-        'url': blogObject.url
-      })
-      
-      console.log(newBlog)
+      const newBlog = await blogService.addNewBlog(blogObject)
       createBlogRef.current.toggleVisibility()
       setBlogs(blogs.concat(newBlog))
       showNotification(`New blog ${newBlog.title} added`)
     }
     catch (exception) {
       showErrorMessage('Something went wrong when creating the blog')
+      console.log(exception)
+    }
+  }
+
+  const likeBlog  = async (id, blogObject) => {
+    try {
+      const likedBlog = await blogService.likeBlog(id, blogObject)
+
+      setBlogs(blogs.map(blog => {
+        if (blog.id == likedBlog.id)
+        {
+          return likedBlog
+        }
+
+        return blog
+      }))
+
+    }
+    catch (exception) {
+      showErrorMessage('Something went wrong when liking the blog')
       console.log(exception)
     }
   }
@@ -116,7 +129,7 @@ const App = () => {
   const blogsDiv = () => (
     <div>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />
       )}
     </div>
   )
