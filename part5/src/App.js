@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import ErrorMessage from './components/ErrorMessage'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -19,7 +20,7 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-
+  const createBlogRef = useRef()
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
@@ -90,7 +91,8 @@ const App = () => {
         'author': author,
         'url': url
       })
-
+      
+      createBlogRef.current.toggleVisibility()
       setTitle('')
       setAuthor('')
       setUrl('')
@@ -189,8 +191,9 @@ const App = () => {
           <h2>blogs</h2>
           <p>{user.name} logged in</p>
           <button onClick={handleLogout}>logout</button>
-
-          {createNewForm()}
+          <Togglable buttonLabel="Create new blog" ref={createBlogRef}>
+            {createNewForm()}
+          </Togglable>
           {blogsDiv()}
         </div>
       }
