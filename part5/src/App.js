@@ -101,7 +101,7 @@ const App = () => {
       const likedBlog = await blogService.likeBlog(id, blogObject)
 
       updateBlogs(blogs.map(blog => {
-        if (blog.id == likedBlog.id)
+        if (blog.id === likedBlog.id)
         {
           return likedBlog
         }
