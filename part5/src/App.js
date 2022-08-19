@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import ErrorMessage from './components/ErrorMessage'
+import NewBlogForm from './components/NewBlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
@@ -15,10 +16,6 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
 
   const createBlogRef = useRef()
   useEffect(() => {
@@ -71,31 +68,17 @@ const App = () => {
     }
   }
 
-  const handleAuthorChange = (event) => {
-    setAuthor(event.target.value)
-  }
-
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value)
-  }
-
-  const handleUrlChange = (event) => {
-    setUrl(event.target.value)
-  }
-
-  const createBlog = async (event) => {
-    event.preventDefault()
+  const createBlog = async (blogObject) => {
     try {
+      console.log(blogObject)
       const newBlog = await blogService.addNewBlog({
-        'title': title,
-        'author': author,
-        'url': url
+        'title': blogObject.title,
+        'author': blogObject.author,
+        'url': blogObject.url
       })
       
+      console.log(newBlog)
       createBlogRef.current.toggleVisibility()
-      setTitle('')
-      setAuthor('')
-      setUrl('')
       setBlogs(blogs.concat(newBlog))
       showNotification(`New blog ${newBlog.title} added`)
     }
@@ -138,34 +121,6 @@ const App = () => {
     </div>
   )
 
-  const createNewForm = () => (
-    <div>
-      <h2>Create new</h2>
-      <form onSubmit={createBlog}>
-        <div>
-          title:
-          <input
-            value={title}
-            onChange={handleTitleChange}
-          />
-        </div>
-        <div>
-          author:<input
-            value={author}
-            onChange={handleAuthorChange}
-          />
-        </div>
-        <div>
-          url:<input
-            value={url}
-            onChange={handleUrlChange}
-          />
-        </div>
-        <button type='submit'>create</button>
-      </form>  
-    </div>
-  )
-
   const showNotification = (message) => {
     setNotification(message)
     setTimeout(() => {
@@ -192,7 +147,7 @@ const App = () => {
           <p>{user.name} logged in</p>
           <button onClick={handleLogout}>logout</button>
           <Togglable buttonLabel="Create new blog" ref={createBlogRef}>
-            {createNewForm()}
+            <NewBlogForm createBlog={createBlog}/>
           </Togglable>
           {blogsDiv()}
         </div>
