@@ -13,7 +13,7 @@ const App = () => {
   const [notification, setNotification] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
 
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
@@ -43,7 +43,7 @@ const App = () => {
   const fetchBlogs = async () => {
     const response = await blogService.getAll()
     updateBlogs(response)
-    
+
   }
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const App = () => {
 
       window.localStorage.setItem(
         'loggedUser', JSON.stringify(user)
-      ) 
+      )
       setUsername('')
       setPassword('')
     } catch (exception) {
@@ -119,7 +119,7 @@ const App = () => {
   const deleteBlog = async (id) => {
     try {
       console.log(id)
-      const response = await blogService.deleteBlog(id);
+      const response = await blogService.deleteBlog(id)
       if (response === 204)
       {
         showNotification('Blog deleted')
@@ -139,25 +139,25 @@ const App = () => {
     <form onSubmit={handleLogin}>
       <h1>Login</h1>
       <div>
-          username
-          <input
-            type='text'
-            value={username}
-            name='Username'
-            onChange={({ target }) => setUsername(target.value)}
-          />
+        username
+        <input
+          type='text'
+          value={username}
+          name='Username'
+          onChange={({ target }) => setUsername(target.value)}
+        />
       </div>
       <div>
-          password
-          <input
-            type='password'
-            value={password}
-            name='Password'
-            onChange={({ target }) => setPassword(target.value)}
-          />
+        password
+        <input
+          type='password'
+          value={password}
+          name='Password'
+          onChange={({ target }) => setPassword(target.value)}
+        />
       </div>
       <button type='submit'>login</button>
-    </form>      
+    </form>
   )
 
   const blogsDiv = () => (

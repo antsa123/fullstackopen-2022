@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const NewBlogForm = ({createBlog}) => {
+const NewBlogForm = ({ createBlog }) => {
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -21,9 +21,9 @@ const NewBlogForm = ({createBlog}) => {
   const addBlog = (event) => {
     event.preventDefault()
     createBlog({
-        'title': title,
-        'author': author,
-        'url': url,
+      'title': title,
+      'author': author,
+      'url': url,
     })
     setTitle('')
     setAuthor('')
@@ -54,7 +54,7 @@ const NewBlogForm = ({createBlog}) => {
           />
         </div>
         <button type='submit'>create</button>
-      </form>  
+      </form>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const Blog = ({blog, likeBlog, deleteBlog, username}) => {
+const Blog = ({ blog, likeBlog, deleteBlog, username }) => {
 
   Blog.propTypes = {
     blog: PropTypes.object.isRequired,
@@ -35,7 +35,7 @@ const Blog = ({blog, likeBlog, deleteBlog, username}) => {
   const [show, setShow] = useState(false)
 
   const toggleVisibility = () => {
-    setShow(!show);
+    setShow(!show)
   }
 
   const sendLikes = (event) => {
@@ -60,31 +60,31 @@ const Blog = ({blog, likeBlog, deleteBlog, username}) => {
   }
 
   return (
-  <div>
-    <div style={blogStyle}>
-      <button style={buttonStyle} onClick={toggleVisibility}>{blog.title} {blog.author}</button>
-      <div>
-      {show ?
-        <div style={infoStyle}>
-          url: {blog.url}
-          <div>
-          likes: {blog.likes ? blog.likes : 0}
-          <button onClick={sendLikes}>Like</button>
-          </div>
-          added by: {blog.user.name}
-        </div>
-        :
+    <div>
+      <div style={blogStyle}>
+        <button style={buttonStyle} onClick={toggleVisibility}>{blog.title} {blog.author}</button>
         <div>
+          {show ?
+            <div style={infoStyle}>
+              url: {blog.url}
+              <div>
+                likes: {blog.likes ? blog.likes : 0}
+                <button onClick={sendLikes}>Like</button>
+              </div>
+              added by: {blog.user.name}
+            </div>
+            :
+            <div>
+            </div>
+          }
+          {show && username === blog.user.username ?
+            <button onClick={confirmDeletion}>Remove blog</button>
+            :
+            <div></div>
+          }
         </div>
-      }
-      {show && username === blog.user.username ? 
-        <button onClick={confirmDeletion}>Remove blog</button>
-        :
-        <div></div>
-      }
       </div>
-    </div>
-  </div>)
+    </div>)
 }
 
 export default Blog
