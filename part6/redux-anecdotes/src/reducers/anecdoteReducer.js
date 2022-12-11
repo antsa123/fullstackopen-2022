@@ -1,3 +1,5 @@
+import { createSlice } from '@reduxjs/toolkit'
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -28,39 +30,22 @@ const sortByVotes = (anecdotesToSort) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
-export const addVoteTo = (id) => {
-  return {
-    type: 'VOTE',
-    data: { id }
-  }
-}
-
-export const createAnecdote = (anecdote) => {
-  return {
-    type: 'CREATE_ANECDOTE',
-    data: {
-      ...asObject(anecdote)
+const anecdoteSlice = createSlice({
+  name: 'anecdotes',
+  initialState,
+  reducers: {
+    addVoteTo(state, action) {
+      const id = action.payload
+      const anecdoteToVote = state.find(anecdote => anecdote.id === id)
+      anecdoteToVote.votes = anecdoteToVote.votes + 1
+      sortByVotes(state)
+    },
+    createAnecdote(state, action) {
+      state.push(asObject(action.payload))
+      sortByVotes(state)
     }
   }
-}
+})
 
-const reducer = (state = initialState, action) => {
-  console.log('action', action)
-  console.log('state now: ', state)
-  switch (action.type) {
-    case 'VOTE':
-      const id = action.data.id
-      const anecdoteToVote = state.find(anecdote => anecdote.id == id)
-      const updatedAnecdote = {
-        ...anecdoteToVote,
-        votes: anecdoteToVote.votes + 1
-      }
-      return sortByVotes(state.map(anecdote => anecdote.id !== id ? anecdote : updatedAnecdote))
-    case 'CREATE_ANECDOTE':
-      return sortByVotes([...state, action.data])
-    default:
-      return state
-  }
-}
-
-export default reducer
+export const { addVoteTo, createAnecdote } = anecdoteSlice.actions
+export default anecdoteSlice.reducer
