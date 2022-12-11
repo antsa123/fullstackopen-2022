@@ -1,9 +1,9 @@
-import Notification from './components/Notification'
 import AnecdoteList from './components/AnecdoteList'
 import AnecdoteForm from './components/AnecdoteForm'
 import { initializeAnecdotes } from './reducers/anecdoteReducer'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
+import ConnectedNotification from './components/Notification'
 
 const App = () => {
 
@@ -15,7 +15,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification/>
+      <ConnectedNotification/>
       <h2>Anecdotes</h2>
       <AnecdoteList/>
       <AnecdoteForm/>
